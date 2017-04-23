@@ -2,5 +2,6 @@ build/
 .idea/
 gen/
 .gradle/
+war/
 *.ipr
 *.iml
