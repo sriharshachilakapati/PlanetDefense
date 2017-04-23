@@ -25,6 +25,7 @@ public class Resources
         long texAsteroidID = loader.define(Image.class, FilePath.getResourceFile("textures/asteroid.png"));
         long texTurretsID = loader.define(Texture.class, FilePath.getResourceFile("textures/sheet_turrets.png"));
         long texSkyID = loader.define(Texture.class, FilePath.getResourceFile("textures/sky.png"));
+        long texProjectileID = loader.define(Image.class, FilePath.getResourceFile("textures/projectile.png"));
 
         PlanetDefense.INSTANCE.setGameState(new ResourceLoadingState(loader, () ->
         {
@@ -60,6 +61,13 @@ public class Resources
             Animations.SKY.setEndCallback(Animations.SKY::start);
             Animations.SKY.start();
 
+            Image projectileImage = loader.get(texProjectileID);
+
+            Polygons.PROJECTILE = Polygon.createConvexHull(projectileImage);
+            Textures.PROJECTILE = Texture.fromImage(projectileImage);
+
+            projectileImage.dispose();
+
             PlanetDefense.INSTANCE.setGameState(new PlayState());
         }));
     }
@@ -68,6 +76,7 @@ public class Resources
     {
         public static Polygon PLANET;
         public static Polygon ASTEROID;
+        public static Polygon PROJECTILE;
     }
 
     public static class Textures
@@ -77,6 +86,7 @@ public class Resources
         public static Texture TURRET_BLUE;
         public static Texture TURRET_GREEN;
         public static Texture TURRET_RED;
+        public static Texture PROJECTILE;
     }
 
     public static class Animations
