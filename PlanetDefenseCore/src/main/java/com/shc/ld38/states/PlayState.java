@@ -16,8 +16,8 @@ import com.shc.silenceengine.scene.Scene;
  */
 public class PlayState extends GameState
 {
-    private OrthoCam camera;
-    private Scene    scene;
+    public static OrthoCam camera;
+    public static Scene    scene;
 
     @Override
     public void onEnter()
