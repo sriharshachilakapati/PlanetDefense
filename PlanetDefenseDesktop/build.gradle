@@ -16,6 +16,7 @@ dependencies {
     compile "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}"
     compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
     compile "org.lwjgl:lwjgl-openal:${lwjglVersion}"
+    compile "org.lwjgl:lwjgl-tinyfd:${lwjglVersion}"
 
     compile "org.lwjgl:lwjgl:${lwjglVersion}:natives-windows"
     compile "org.lwjgl:lwjgl:${lwjglVersion}:natives-macos"
@@ -35,6 +36,9 @@ dependencies {
     compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}:natives-windows"
     compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}:natives-macos"
     compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}:natives-linux"
+    compile "org.lwjgl:lwjgl-tinyfd:${lwjglVersion}:natives-windows"
+    compile "org.lwjgl:lwjgl-tinyfd:${lwjglVersion}:natives-macos"
+    compile "org.lwjgl:lwjgl-tinyfd:${lwjglVersion}:natives-linux"
 
     compile 'com.goharsha:easyxml:0.1:@jar'
     compile 'com.goharsha:easyjson:0.3:@jar'

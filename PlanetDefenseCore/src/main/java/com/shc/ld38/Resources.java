@@ -4,6 +4,7 @@ import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.core.ResourceLoader;
 import com.shc.silenceengine.graphics.Image;
 import com.shc.silenceengine.graphics.SpriteSheet;
+import com.shc.silenceengine.graphics.fonts.BitmapFont;
 import com.shc.silenceengine.graphics.opengl.Texture;
 import com.shc.silenceengine.io.FilePath;
 import com.shc.silenceengine.math.geom2d.Polygon;
@@ -25,6 +26,8 @@ public class Resources
         long texPlaneID = loader.define(Image.class, FilePath.getResourceFile("textures/plane.png"));
         long texUFOID = loader.define(Image.class, FilePath.getResourceFile("textures/ufo.png"));
         long texAlienID = loader.define(Image.class, FilePath.getResourceFile("textures/alien.png"));
+
+        long fontDefID = loader.define(BitmapFont.class, FilePath.getResourceFile("engine_resources/fonts/roboto32px.fnt"));
 
         PlanetDefense.INSTANCE.setGameState(new ResourceLoadingState(loader, () ->
         {
@@ -77,6 +80,8 @@ public class Resources
 
             alienImage.dispose();
 
+            Fonts.DEFAULT = loader.get(fontDefID);
+
             PlanetDefense.INSTANCE.setGameState(new PlayState());
         }));
     }
@@ -102,5 +107,10 @@ public class Resources
         public static Texture TURRET_RED;
         public static Texture PROJECTILE;
         public static Texture PLANE;
+    }
+
+    public static class Fonts
+    {
+        public static BitmapFont DEFAULT;
     }
 }

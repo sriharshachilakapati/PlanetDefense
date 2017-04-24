@@ -5,6 +5,7 @@ import com.shc.ld38.Util;
 import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.collision.CollisionTag;
 import com.shc.silenceengine.core.Game;
+import com.shc.silenceengine.core.SilenceEngine;
 import com.shc.silenceengine.graphics.Color;
 import com.shc.silenceengine.graphics.Sprite;
 import com.shc.silenceengine.input.Touch;
@@ -58,16 +59,21 @@ public class Asteroid extends Entity
         {
             transformComponent.rotate(5 * elapsedTime);
 
-            if (Touch.isFingerTapped(Touch.FINGER_0) && !alreadyOccupied)
+            if (Touch.isFingerTapped(Touch.FINGER_0) && !alreadyOccupied && PlayState.money >= 1000)
             {
                 Vector2 pos = Util.getMouseInView();
                 if (collisionComponent.polygon.contains(pos))
                 {
+                    // Ask for confirmation
+                    if (!SilenceEngine.display.confirm("Buy a blue turret for 1000 bucks?"))
+                        return;
+
                     Turret turret = new Turret();
                     turret.transformComponent.setParent(transformComponent);
                     TaskManager.runOnRender(() -> PlayState.scene.addEntity(turret));
 
                     alreadyOccupied = true;
+                    PlayState.money -= 1000;
                 }
             }
         }

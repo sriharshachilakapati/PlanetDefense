@@ -1,6 +1,7 @@
 package com.shc.ld38.entities;
 
 import com.shc.ld38.Resources;
+import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.collision.CollisionTag;
 import com.shc.silenceengine.core.Game;
 import com.shc.silenceengine.graphics.Color;
@@ -21,6 +22,8 @@ public class Attacker extends Entity
 {
     public static final CollisionTag COLLISION_TAG = new CollisionTag();
 
+    private Type type;
+
     public Attacker(Type type)
     {
         addComponent(new SpriteComponent(new Sprite(type.texture)));
@@ -36,6 +39,8 @@ public class Attacker extends Entity
 
         if (type == Type.ALIEN)
             addComponent(new AlienBehaviour());
+
+        this.type = type;
     }
 
     private void attackerCollision(CollisionComponent2D other)
@@ -44,6 +49,22 @@ public class Attacker extends Entity
         {
             destroy();
             other.getEntity().destroy();
+
+            // Reward money
+            switch (type)
+            {
+                case PLANE:
+                    PlayState.money += 500;
+                    break;
+
+                case UFO:
+                    PlayState.money += 1000;
+                    break;
+
+                case ALIEN:
+                    PlayState.money += 1500;
+                    break;
+            }
         }
     }
 

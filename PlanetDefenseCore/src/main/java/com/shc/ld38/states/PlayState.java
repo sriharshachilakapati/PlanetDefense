@@ -1,5 +1,6 @@
 package com.shc.ld38.states;
 
+import com.shc.ld38.Resources;
 import com.shc.ld38.Util;
 import com.shc.ld38.entities.Asteroid;
 import com.shc.ld38.entities.Attacker;
@@ -10,8 +11,10 @@ import com.shc.silenceengine.collision.colliders.CollisionSystem2D;
 import com.shc.silenceengine.core.GameState;
 import com.shc.silenceengine.core.SilenceEngine;
 import com.shc.silenceengine.graphics.Color;
+import com.shc.silenceengine.graphics.IGraphicsDevice;
 import com.shc.silenceengine.graphics.SceneRenderSystem;
 import com.shc.silenceengine.graphics.cameras.OrthoCam;
+import com.shc.silenceengine.graphics.fonts.BitmapFontRenderer;
 import com.shc.silenceengine.graphics.opengl.GLContext;
 import com.shc.silenceengine.input.Mouse;
 import com.shc.silenceengine.input.Touch;
@@ -30,13 +33,17 @@ public class PlayState extends GameState
     private static final float HEIGHT = 720;
 
     private static OrthoCam camera;
+    private static OrthoCam hudCam;
     public static  Scene    scene;
+
+    public static float money;
 
     private Vector2 previousMouse = new Vector2();
 
     @Override
     public void onEnter()
     {
+        money = 1000;
         scene = new Scene();
 
         scene.addEntity(new Planet());
@@ -66,6 +73,7 @@ public class PlayState extends GameState
         scene.registerRenderSystem(new SceneRenderSystem());
 
         camera = new OrthoCam();
+        hudCam = new OrthoCam();
         resized();
 
         GLContext.clearColor(new Color(10 / 255f, 42 / 255f, 49 / 255f));
@@ -76,6 +84,8 @@ public class PlayState extends GameState
     {
         scene.update(delta);
         Util.update();
+
+        money += 10 * delta;
 
         if (Mouse.isButtonTapped(Mouse.BUTTON_RIGHT))
             SilenceEngine.log.getRootLogger().info(Util.getMouseInView());
@@ -104,6 +114,16 @@ public class PlayState extends GameState
     {
         camera.apply();
         scene.render(delta);
+
+        hudCam.apply();
+        BitmapFontRenderer fontRenderer = IGraphicsDevice.Renderers.bitmapFont;
+        IGraphicsDevice.Programs.font.use();
+
+        fontRenderer.begin();
+        {
+            fontRenderer.render(Resources.Fonts.DEFAULT, "Money: " + (int) money, 10, 10);
+        }
+        fontRenderer.end();
     }
 
     @Override
@@ -129,6 +149,7 @@ public class PlayState extends GameState
         }
 
         camera.initProjection(projectionWidth, projectionHeight);
+        hudCam.initProjection(WIDTH, HEIGHT);
         GLContext.viewport(0, 0, displayWidth, displayHeight);
     }
 }
