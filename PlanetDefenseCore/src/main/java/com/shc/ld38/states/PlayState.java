@@ -14,6 +14,9 @@ import com.shc.silenceengine.input.Mouse;
 import com.shc.silenceengine.input.Touch;
 import com.shc.silenceengine.math.Vector2;
 import com.shc.silenceengine.scene.Scene;
+import com.shc.silenceengine.utils.GameTimer;
+import com.shc.silenceengine.utils.TaskManager;
+import com.shc.silenceengine.utils.TimeUtils;
 
 /**
  * @author Sri Harsha Chilakapati
@@ -44,6 +47,10 @@ public class PlayState extends GameState
         scene.addEntity(new Asteroid(1154, 209));
 
         scene.addEntity(new Attacker(Attacker.Type.PLANE));
+
+        GameTimer ufoSpawn = new GameTimer(3, TimeUtils.Unit.SECONDS);
+        ufoSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.UFO))));
+        ufoSpawn.start();
 
         scene.registerRenderSystem(new SceneRenderSystem());
 

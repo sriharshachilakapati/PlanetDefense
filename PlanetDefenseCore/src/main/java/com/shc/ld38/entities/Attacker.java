@@ -37,7 +37,7 @@ public class Attacker extends Entity
     public enum Type
     {
         PLANE(true, Resources.Textures.PLANE, Resources.Polygons.PLANE),
-        UFO(false, null, null),
+        UFO(false, Resources.Textures.UFO, Resources.Polygons.UFO),
         ALIEN(false, null, null);
 
         Type(boolean rotatesInPath, Texture texture, Polygon polygon)
