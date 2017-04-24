@@ -18,6 +18,13 @@ public class PathComponent extends Component
 
     private float rotation = 90;
 
+    private boolean doRotation;
+
+    public PathComponent(boolean doRotation)
+    {
+        this.doRotation = doRotation;
+    }
+
     private static float lerpDegrees(float start, float end, float amount)
     {
         float difference = Math.abs(end - start);
@@ -61,10 +68,13 @@ public class PathComponent extends Component
         temp.set(currentPoint).lerp(nextPoint, midstVertex);
         transformComponent.setPosition(temp);
 
-        float newRotation = currentPoint.angle(temp) + 90;
-        newRotation = lerpDegrees(rotation, newRotation, midstVertex);
-        rotation = newRotation;
-        transformComponent.setRotation(rotation);
+        if (doRotation)
+        {
+            float newRotation = currentPoint.angle(temp) + 90;
+            newRotation = lerpDegrees(rotation, newRotation, midstVertex);
+            rotation = newRotation;
+            transformComponent.setRotation(rotation);
+        }
 
         Vector2.REUSABLE_STACK.push(temp);
 
