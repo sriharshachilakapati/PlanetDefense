@@ -36,6 +36,7 @@ public class Attacker extends Entity
         }
 
         addComponent(new PathComponent(type.rotatesInPath));
+        addComponent(new Statistics());
 
         if (type == Type.ALIEN)
             addComponent(new AlienBehaviour());
@@ -66,6 +67,23 @@ public class Attacker extends Entity
                     PlayState.money += 1500;
                     break;
             }
+        }
+    }
+
+    public static class Statistics extends Component
+    {
+        public static int instances;
+
+        @Override
+        protected void onCreate()
+        {
+            instances++;
+        }
+
+        @Override
+        protected void onDestroyed()
+        {
+            instances--;
         }
     }
 

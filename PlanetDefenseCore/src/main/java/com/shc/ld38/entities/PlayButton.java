@@ -67,10 +67,7 @@ public class PlayButton extends Entity
                 spriteComponent.sprite = Resources.Sprites.PLAY_HOVER;
 
                 if (Touch.isFingerTapped(Touch.FINGER_0))
-                {
                     TaskManager.runOnRender(PlayState::generateNewWave);
-                    enabled = false;
-                }
             }
             else
                 spriteComponent.sprite = Resources.Sprites.PLAY_ENABLED;

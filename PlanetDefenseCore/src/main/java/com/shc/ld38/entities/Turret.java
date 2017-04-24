@@ -98,7 +98,7 @@ public class Turret extends Entity
         @Override
         protected void onUpdate(float elapsedTime)
         {
-            if (Touch.isFingerTapped(Touch.FINGER_0) && levelCurrent < 3)
+            if (PlayButton.enabled && Touch.isFingerTapped(Touch.FINGER_0) && levelCurrent < 3)
             {
                 Vector2 pos = Util.getMouseInView();
 

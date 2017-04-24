@@ -65,7 +65,7 @@ public class Asteroid extends Entity
         {
             transformComponent.rotate(5 * elapsedTime);
 
-            if (Touch.isFingerTapped(Touch.FINGER_0) && !alreadyOccupied && PlayState.money >= 1000)
+            if (PlayButton.enabled && Touch.isFingerTapped(Touch.FINGER_0) && !alreadyOccupied && PlayState.money >= 1000)
             {
                 Vector2 pos = Util.getMouseInView();
                 if (collisionComponent.polygon.contains(pos))

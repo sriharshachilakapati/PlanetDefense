@@ -92,8 +92,6 @@ public class PlayState extends GameState
         hudCam = new OrthoCam();
         resized();
 
-        generateNewWave();
-
         GLContext.clearColor(new Color(10 / 255f, 42 / 255f, 49 / 255f));
     }
 
@@ -109,6 +107,8 @@ public class PlayState extends GameState
         scene.update(delta);
 
         money += 10 * delta;
+
+        PlayButton.enabled = Attacker.Statistics.instances == 0;
 
         if (Mouse.isButtonTapped(Mouse.BUTTON_RIGHT))
             SilenceEngine.log.getRootLogger().info(Util.getMouseInView());
