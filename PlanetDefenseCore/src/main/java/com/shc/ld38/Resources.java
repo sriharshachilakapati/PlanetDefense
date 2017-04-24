@@ -1,6 +1,6 @@
 package com.shc.ld38;
 
-import com.shc.ld38.states.PlayState;
+import com.shc.ld38.states.IntroState;
 import com.shc.silenceengine.core.ResourceLoader;
 import com.shc.silenceengine.graphics.Image;
 import com.shc.silenceengine.graphics.Sprite;
@@ -28,6 +28,7 @@ public class Resources
         long texUFOID = loader.define(Image.class, FilePath.getResourceFile("textures/ufo.png"));
         long texAlienID = loader.define(Image.class, FilePath.getResourceFile("textures/alien.png"));
         long texPlayBtnID = loader.define(Image.class, FilePath.getResourceFile("textures/playButton.png"));
+        long texLogoID = loader.define(Texture.class, FilePath.getResourceFile("textures/logo.png"));
 
         long fontDefID = loader.define(BitmapFont.class, FilePath.getResourceFile("engine_resources/fonts/roboto32px.fnt"));
 
@@ -95,9 +96,11 @@ public class Resources
 
             playImage.dispose();
 
+            Textures.LOGO = loader.get(texLogoID);
+
             Fonts.DEFAULT = loader.get(fontDefID);
 
-            PlanetDefense.INSTANCE.setGameState(new PlayState());
+            PlanetDefense.INSTANCE.setGameState(new IntroState());
         }));
     }
 
@@ -114,6 +117,7 @@ public class Resources
 
     public static class Textures
     {
+        public static Texture LOGO;
         public static Texture ALIEN;
         public static Texture UFO;
         public static Texture PLANET;
@@ -127,7 +131,7 @@ public class Resources
 
     public static class Sprites
     {
-        public static Sprite  PLAY_ENABLED;
+        public static Sprite PLAY_ENABLED;
         public static Sprite PLAY_HOVER;
         public static Sprite PLAY_DISABLED;
     }

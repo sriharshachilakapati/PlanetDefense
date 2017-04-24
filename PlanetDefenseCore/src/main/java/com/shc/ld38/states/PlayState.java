@@ -11,36 +11,28 @@ import com.shc.silenceengine.collision.broadphase.Grid;
 import com.shc.silenceengine.collision.colliders.CollisionSystem2D;
 import com.shc.silenceengine.core.GameState;
 import com.shc.silenceengine.core.SilenceEngine;
-import com.shc.silenceengine.graphics.Color;
 import com.shc.silenceengine.graphics.IGraphicsDevice;
 import com.shc.silenceengine.graphics.SceneRenderSystem;
-import com.shc.silenceengine.graphics.cameras.OrthoCam;
 import com.shc.silenceengine.graphics.fonts.BitmapFontRenderer;
-import com.shc.silenceengine.graphics.opengl.GLContext;
 import com.shc.silenceengine.input.Mouse;
 import com.shc.silenceengine.input.Touch;
 import com.shc.silenceengine.math.Vector2;
 import com.shc.silenceengine.scene.Scene;
+
+import static com.shc.ld38.PlanetDefense.*;
 
 /**
  * @author Sri Harsha Chilakapati
  */
 public class PlayState extends GameState
 {
-    public static final float WIDTH  = 1280;
-    public static final float HEIGHT = 720;
-
-    private static OrthoCam camera;
-    private static OrthoCam hudCam;
+    private static int waveNo = 0;
 
     public static Scene scene;
     public static float money;
 
-    private static int waveNo = 0;
-
-    private Scene hud;
-
-    private Vector2 previousMouse = new Vector2();
+    private Scene   hud;
+    private Vector2 previousMouse;
 
     public static void generateNewWave()
     {
@@ -89,11 +81,7 @@ public class PlayState extends GameState
 
         PlayButton.enabled = true;
 
-        camera = new OrthoCam();
-        hudCam = new OrthoCam();
-        resized();
-
-        GLContext.clearColor(new Color(10 / 255f, 42 / 255f, 49 / 255f));
+        camera.center(WIDTH / 2, HEIGHT / 2);
     }
 
     @Override
@@ -114,10 +102,7 @@ public class PlayState extends GameState
         if (Mouse.isButtonTapped(Mouse.BUTTON_RIGHT))
             SilenceEngine.log.getRootLogger().info(Util.getMouseInView());
 
-        if (Touch.isFingerTapped(Touch.FINGER_0))
-            previousMouse.set(Touch.getFingerPosition(Touch.FINGER_0));
-
-        if (Touch.isFingerDown(Touch.FINGER_0))
+        if (previousMouse != null && Touch.isFingerDown(Touch.FINGER_0))
         {
             Vector2 pos = Touch.getFingerPosition(Touch.FINGER_0);
 
@@ -128,6 +113,11 @@ public class PlayState extends GameState
 
             camera.translate(dx, dy);
         }
+
+        if (previousMouse == null)
+            previousMouse = new Vector2();
+
+        previousMouse.set(Touch.getFingerPosition(Touch.FINGER_0));
 
         SilenceEngine.display.setTitle("PlanetDefense | FPS: " + SilenceEngine.gameLoop.getFPS() + " | UPS: " +
                                        SilenceEngine.gameLoop.getUPS());
@@ -150,32 +140,5 @@ public class PlayState extends GameState
             fontRenderer.render(Resources.Fonts.DEFAULT, "Money: " + (int) money, 10, 10);
         }
         fontRenderer.end();
-    }
-
-    @Override
-    public void resized()
-    {
-        final int displayWidth = SilenceEngine.display.getWidth();
-        final int displayHeight = SilenceEngine.display.getHeight();
-
-        final float aspect = (float) displayWidth / (float) displayHeight;
-
-        float projectionWidth;
-        float projectionHeight;
-
-        if (displayWidth < displayHeight)
-        {
-            projectionWidth = WIDTH;
-            projectionHeight = WIDTH / aspect;
-        }
-        else
-        {
-            projectionWidth = HEIGHT * aspect;
-            projectionHeight = HEIGHT;
-        }
-
-        camera.initProjection(projectionWidth, projectionHeight);
-        hudCam.initProjection(WIDTH, HEIGHT);
-        GLContext.viewport(0, 0, displayWidth, displayHeight);
     }
 }

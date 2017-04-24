@@ -1,5 +1,6 @@
 package com.shc.ld38.entities;
 
+import com.shc.ld38.PlanetDefense;
 import com.shc.ld38.Resources;
 import com.shc.ld38.Util;
 import com.shc.ld38.states.PlayState;
@@ -25,7 +26,7 @@ public class PlayButton extends Entity
 
     public PlayButton()
     {
-        transformComponent.setPosition(PlayState.WIDTH - 40, 30);
+        transformComponent.setPosition(PlanetDefense.WIDTH - 40, 30);
 
         addComponent(new SpriteComponent(Resources.Sprites.PLAY_ENABLED));
         addComponent(new CollisionComponent2D(new CollisionTag(), Resources.Polygons.PLAY.copy()));
