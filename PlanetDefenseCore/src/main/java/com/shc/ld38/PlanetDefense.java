@@ -24,6 +24,8 @@ public class PlanetDefense extends Game
         if (SilenceEngine.display.getPlatform() != SilenceEngine.Platform.ANDROID)
             SilenceEngine.input.setSimulateTouch(true);
 
+        DEVELOPMENT = false;
+
         INSTANCE = this;
 
         SilenceEngine.display.setTitle("PlanetDefense: SilenceEngine " + SilenceEngine.getVersionString());
