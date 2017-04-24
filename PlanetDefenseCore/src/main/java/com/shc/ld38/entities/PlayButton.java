@@ -67,8 +67,7 @@ public class PlayButton extends Entity
 
                 if (Touch.isFingerTapped(Touch.FINGER_0))
                 {
-                    // Generate a new wave!!
-
+                    PlayState.generateNewWave();
                     enabled = false;
                 }
             }

@@ -36,13 +36,17 @@ public class PlayState extends GameState
     private static OrthoCam camera;
     private static OrthoCam hudCam;
 
-    public static  Scene    scene;
+    public static Scene scene;
+    public static float money;
 
     private Scene hud;
 
-    public static float money;
-
     private Vector2 previousMouse = new Vector2();
+
+    public static void generateNewWave()
+    {
+        // TODO:
+    }
 
     @Override
     public void onEnter()

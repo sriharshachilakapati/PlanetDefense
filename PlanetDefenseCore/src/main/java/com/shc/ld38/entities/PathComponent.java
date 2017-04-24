@@ -1,7 +1,9 @@
 package com.shc.ld38.entities;
 
 import com.shc.silenceengine.math.Vector2;
+import com.shc.silenceengine.math.Vector3;
 import com.shc.silenceengine.scene.Component;
+import com.shc.silenceengine.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,8 @@ public class PathComponent extends Component
 {
     public static final List<Vector2> PATH = new ArrayList<>();
 
-    private int   pathIndex   = 0;
-    private float midstVertex = 0;
-
-    private float rotation = 90;
+    private int   pathIndex = 0;
+    private float rotation  = 90;
 
     private boolean doRotation;
 
@@ -28,25 +28,16 @@ public class PathComponent extends Component
     private static float lerpDegrees(float start, float end, float amount)
     {
         float difference = Math.abs(end - start);
+
         if (difference > 180)
         {
-            // We need to add on to one of the values.
             if (end > start)
-            {
-                // We'll add it on to start...
                 start += 360;
-            }
             else
-            {
-                // Add it on to end.
                 end += 360;
-            }
         }
 
-        // Interpolate it.
         float value = (start + ((end - start) * amount));
-
-        // Wrap it..
         float rangeZero = 360;
 
         if (value >= 0 && value <= 360)
@@ -58,31 +49,38 @@ public class PathComponent extends Component
     @Override
     protected void onUpdate(float elapsedTime)
     {
-        Vector2 currentPoint = PATH.get(pathIndex % PATH.size());
-        Vector2 nextPoint = PATH.get((pathIndex + 1) % PATH.size());
-
-        midstVertex += elapsedTime * 2.5f;
+        Vector2 targetPoint = PATH.get(pathIndex % PATH.size());
 
         Vector2 temp = Vector2.REUSABLE_STACK.pop();
 
-        temp.set(currentPoint).lerp(nextPoint, midstVertex);
-        transformComponent.setPosition(temp);
+        if (moveTo(targetPoint, temp, 2))
+            pathIndex++;
 
         if (doRotation)
         {
-            float newRotation = currentPoint.angle(temp) + 90;
-            newRotation = lerpDegrees(rotation, newRotation, midstVertex);
+            float newRotation = targetPoint.angle(temp) - 90;
+            newRotation = lerpDegrees(rotation, newRotation, elapsedTime * 4);
             rotation = newRotation;
             transformComponent.setRotation(rotation);
         }
 
         Vector2.REUSABLE_STACK.push(temp);
+    }
 
-        if (midstVertex > 1.0)
-        {
-            pathIndex++;
-            midstVertex = 0;
-        }
+    private boolean moveTo(Vector2 target, Vector2 temp, float speed)
+    {
+        Vector3 position = transformComponent.getPosition();
+        temp.x = position.x;
+        temp.y = position.y;
+
+        final float angle = target.angle(temp);
+
+        temp.x += speed * MathUtils.cos(angle);
+        temp.y += speed * MathUtils.sin(angle);
+
+        transformComponent.setPosition(temp);
+
+        return temp.distanceSquared(target) <= 100;
     }
 
     static
