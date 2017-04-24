@@ -4,6 +4,9 @@ import com.shc.ld38.Util;
 import com.shc.ld38.entities.Asteroid;
 import com.shc.ld38.entities.Attacker;
 import com.shc.ld38.entities.Planet;
+import com.shc.ld38.entities.Projectile;
+import com.shc.silenceengine.collision.broadphase.Grid;
+import com.shc.silenceengine.collision.colliders.CollisionSystem2D;
 import com.shc.silenceengine.core.GameState;
 import com.shc.silenceengine.core.SilenceEngine;
 import com.shc.silenceengine.graphics.Color;
@@ -45,8 +48,12 @@ public class PlayState extends GameState
         scene.addEntity(new Asteroid(792, 318));
         scene.addEntity(new Asteroid(930, 49));
         scene.addEntity(new Asteroid(1154, 209));
-
         scene.addEntity(new Attacker(Attacker.Type.PLANE));
+
+        CollisionSystem2D collider = new CollisionSystem2D(new Grid((int) WIDTH, (int) HEIGHT, 128, 128));
+        collider.register(Attacker.COLLISION_TAG, Projectile.COLLISION_TAG);
+
+        scene.registerUpdateSystem(collider);
 
         GameTimer ufoSpawn = new GameTimer(3, TimeUtils.Unit.SECONDS);
         ufoSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.UFO))));

@@ -24,7 +24,7 @@ public class Attacker extends Entity
     public Attacker(Type type)
     {
         addComponent(new SpriteComponent(new Sprite(type.texture)));
-        addComponent(new CollisionComponent2D(COLLISION_TAG, type.polygon.copy()));
+        addComponent(new CollisionComponent2D(COLLISION_TAG, type.polygon.copy(), this::attackerCollision));
 
         if (Game.DEVELOPMENT)
         {
@@ -36,6 +36,15 @@ public class Attacker extends Entity
 
         if (type == Type.ALIEN)
             addComponent(new AlienBehaviour());
+    }
+
+    private void attackerCollision(CollisionComponent2D other)
+    {
+        if (other.tag == Projectile.COLLISION_TAG)
+        {
+            destroy();
+            other.getEntity().destroy();
+        }
     }
 
     private static class AlienBehaviour extends Component
