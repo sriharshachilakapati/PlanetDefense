@@ -1,5 +1,6 @@
 package com.shc.ld38.states;
 
+import com.shc.ld38.PlanetDefense;
 import com.shc.ld38.Resources;
 import com.shc.ld38.Util;
 import com.shc.ld38.entities.Asteroid;
@@ -30,6 +31,7 @@ public class PlayState extends GameState
 
     public static Scene scene;
     public static float money;
+    public static int   lives;
 
     private Scene   hud;
     private Vector2 previousMouse;
@@ -52,7 +54,8 @@ public class PlayState extends GameState
     @Override
     public void onEnter()
     {
-        money = 1000;
+        money = 3000;
+        lives = 5;
         scene = new Scene();
 
         scene.addEntity(new Planet());
@@ -95,7 +98,11 @@ public class PlayState extends GameState
         Util.update();
         scene.update(delta);
 
-        money += 10 * delta;
+        if (lives <= 0)
+        {
+            PlanetDefense.INSTANCE.setGameState(new GameOverState());
+            return;
+        }
 
         PlayButton.enabled = Attacker.Statistics.instances == 0;
 
@@ -138,6 +145,7 @@ public class PlayState extends GameState
         fontRenderer.begin();
         {
             fontRenderer.render(Resources.Fonts.DEFAULT, "Money: " + (int) money, 10, 10);
+            fontRenderer.render(Resources.Fonts.DEFAULT, "Lives: " + lives, 10, 10 + Resources.Fonts.DEFAULT.getHeight());
         }
         fontRenderer.end();
     }

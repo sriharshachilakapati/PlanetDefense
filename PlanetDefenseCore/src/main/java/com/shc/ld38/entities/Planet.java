@@ -1,6 +1,7 @@
 package com.shc.ld38.entities;
 
 import com.shc.ld38.Resources;
+import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.collision.CollisionTag;
 import com.shc.silenceengine.core.Game;
 import com.shc.silenceengine.graphics.Color;
@@ -38,8 +39,11 @@ public class Planet extends Entity
 
     private void onCollision(CollisionComponent2D other)
     {
-        if (other.tag == Attacker.COLLISION_TAG)
+        if (other.tag == Attacker.COLLISION_TAG && !other.getEntity().isDestroyed())
+        {
+            PlayState.lives--;
             other.getEntity().destroy();
+        }
     }
 
     private static class Behaviour extends Component
