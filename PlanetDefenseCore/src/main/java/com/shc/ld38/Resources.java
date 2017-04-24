@@ -42,12 +42,20 @@ public class Resources
             Polygons.PLANET = Polygon.createConvexHull(planetImage);
             Textures.PLANET = Texture.fromImage(planetImage);
 
+            Polygons.PLANET.scale(Textures.PLANET.getWidth() / planetImage.getWidth(),
+                    Textures.PLANET.getHeight() / planetImage.getHeight());
+            Polygons.PLANET.saveTransform();
+
             planetImage.dispose();
 
             Image asteroidImage = loader.get(texAsteroidID);
 
             Polygons.ASTEROID = Polygon.createConvexHull(asteroidImage);
             Textures.ASTEROID = Texture.fromImage(asteroidImage);
+
+            Polygons.ASTEROID.scale(Textures.ASTEROID.getWidth() / asteroidImage.getWidth(),
+                    Textures.ASTEROID.getHeight() / asteroidImage.getHeight());
+            Polygons.ASTEROID.saveTransform();
 
             asteroidImage.dispose();
 
@@ -63,12 +71,20 @@ public class Resources
             Polygons.PROJECTILE = Polygon.createConvexHull(projectileImage);
             Textures.PROJECTILE = Texture.fromImage(projectileImage);
 
+            Polygons.PROJECTILE.scale(Textures.PROJECTILE.getWidth() / projectileImage.getWidth(),
+                    Textures.PROJECTILE.getHeight() / projectileImage.getHeight());
+            Polygons.PROJECTILE.saveTransform();
+
             projectileImage.dispose();
 
             Image planeImage = loader.get(texPlaneID);
 
             Polygons.PLANE = Polygon.createConvexHull(planeImage);
             Textures.PLANE = Texture.fromImage(planeImage);
+
+            Polygons.PLANE.scale(Textures.PLANE.getWidth() / planeImage.getWidth(),
+                    Textures.PLANE.getHeight() / planeImage.getHeight());
+            Polygons.PLANE.saveTransform();
 
             planeImage.dispose();
 
@@ -77,12 +93,20 @@ public class Resources
             Polygons.UFO = Polygon.createConvexHull(ufoImage);
             Textures.UFO = Texture.fromImage(ufoImage);
 
+            Polygons.UFO.scale(Textures.UFO.getWidth() / ufoImage.getWidth(),
+                    Textures.UFO.getHeight() / ufoImage.getHeight());
+            Polygons.UFO.saveTransform();
+
             ufoImage.dispose();
 
             Image alienImage = loader.get(texAlienID);
 
             Polygons.ALIEN = Polygon.createConvexHull(alienImage);
             Textures.ALIEN = Texture.fromImage(alienImage);
+
+            Polygons.ALIEN.scale(Textures.ALIEN.getWidth() / alienImage.getWidth(),
+                    Textures.ALIEN.getHeight() / alienImage.getHeight());
+            Polygons.ALIEN.saveTransform();
 
             alienImage.dispose();
 

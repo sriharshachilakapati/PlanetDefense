@@ -50,6 +50,9 @@ public class PlanetDefense extends Game
     @Override
     public void resized()
     {
+        if (camera == null || hudCam == null)
+            return;
+
         final int displayWidth = SilenceEngine.display.getWidth();
         final int displayHeight = SilenceEngine.display.getHeight();
 
