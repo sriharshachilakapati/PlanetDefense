@@ -24,12 +24,12 @@ import com.shc.silenceengine.utils.TaskManager;
  */
 public class Asteroid extends Entity
 {
-    private static final CollisionTag COLLISION_TAG = new CollisionTag();
+    public static final CollisionTag COLLISION_TAG = new CollisionTag();
 
     public Asteroid(float x, float y)
     {
         addComponent(new SpriteComponent(new Sprite(Resources.Textures.ASTEROID)));
-        addComponent(new CollisionComponent2D(COLLISION_TAG, Resources.Polygons.ASTEROID.copy()));
+        addComponent(new CollisionComponent2D(COLLISION_TAG, Resources.Polygons.ASTEROID.copy(), this::onCollision));
 
         if (Game.DEVELOPMENT)
         {
@@ -39,6 +39,12 @@ public class Asteroid extends Entity
 
         addComponent(new Behaviour());
         transformComponent.setPosition(x, y);
+    }
+
+    private void onCollision(CollisionComponent2D other)
+    {
+        if (other.tag == Projectile.COLLISION_TAG && ((Projectile) other.getEntity()).owner != this)
+            other.getEntity().destroy();
     }
 
     private static class Behaviour extends Component

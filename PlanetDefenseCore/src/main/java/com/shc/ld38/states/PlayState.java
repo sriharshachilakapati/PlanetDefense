@@ -74,7 +74,9 @@ public class PlayState extends GameState
         scene.addEntity(new Asteroid(1154, 209));
 
         CollisionSystem2D collider = new CollisionSystem2D(new Grid((int) WIDTH, (int) HEIGHT, 128, 128));
+
         collider.register(Attacker.COLLISION_TAG, Projectile.COLLISION_TAG);
+        collider.register(Asteroid.COLLISION_TAG, Projectile.COLLISION_TAG);
 
         scene.registerUpdateSystem(collider);
 

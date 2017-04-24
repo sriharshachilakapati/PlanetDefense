@@ -43,6 +43,8 @@ public class Turret extends Entity
         private SpriteComponent      spriteComponent;
         private CollisionComponent2D collisionComponent;
 
+        private Asteroid owner;
+
         @Override
         protected void onCreate()
         {
@@ -74,9 +76,11 @@ public class Turret extends Entity
                         Vector2.REUSABLE_STACK.push(temp);
 
                         calculatedFiringAngle = true;
+
+                        owner = (Asteroid) transformComponent.getParent().getEntity();
                     }
 
-                    Projectile projectile = new Projectile(firingAngle);
+                    Projectile projectile = new Projectile(firingAngle, owner);
                     projectile.transformComponent.setPosition(transformComponent.getParent().getPosition());
 
                     PlayState.scene.addEntity(projectile);

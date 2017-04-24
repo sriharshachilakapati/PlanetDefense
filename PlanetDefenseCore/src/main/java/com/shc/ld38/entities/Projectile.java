@@ -23,7 +23,9 @@ public class Projectile extends Entity
 {
     public static final CollisionTag COLLISION_TAG = new CollisionTag();
 
-    public Projectile(float angle)
+    public Asteroid owner;
+
+    public Projectile(float angle, Asteroid owner)
     {
         SpriteComponent spriteComponent = new SpriteComponent(new Sprite(Resources.Textures.PROJECTILE));
         spriteComponent.layer = -2;
@@ -38,6 +40,8 @@ public class Projectile extends Entity
         }
 
         addComponent(new Behaviour(angle));
+
+        this.owner = owner;
     }
 
     private static class Behaviour extends Component
