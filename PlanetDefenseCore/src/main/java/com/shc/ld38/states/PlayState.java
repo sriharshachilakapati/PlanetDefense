@@ -77,6 +77,7 @@ public class PlayState extends GameState
 
         collider.register(Attacker.COLLISION_TAG, Projectile.COLLISION_TAG);
         collider.register(Asteroid.COLLISION_TAG, Projectile.COLLISION_TAG);
+        collider.register(Planet.COLLISION_TAG, Attacker.COLLISION_TAG);
 
         scene.registerUpdateSystem(collider);
 

@@ -47,7 +47,7 @@ public class Attacker extends Entity
 
     private void attackerCollision(CollisionComponent2D other)
     {
-        if (other.tag == Projectile.COLLISION_TAG)
+        if (other.tag == Projectile.COLLISION_TAG && !other.getEntity().isDestroyed())
         {
             destroy();
             other.getEntity().destroy();

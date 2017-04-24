@@ -23,7 +23,7 @@ public class Planet extends Entity
     public Planet()
     {
         addComponent(new SpriteComponent(new Sprite(Resources.Textures.PLANET)));
-        addComponent(new CollisionComponent2D(COLLISION_TAG, Resources.Polygons.PLANET.copy()));
+        addComponent(new CollisionComponent2D(COLLISION_TAG, Resources.Polygons.PLANET.copy(), this::onCollision));
 
         if (Game.DEVELOPMENT)
         {
@@ -34,6 +34,12 @@ public class Planet extends Entity
         addComponent(new Behaviour());
 
         transformComponent.setPosition(400, 720);
+    }
+
+    private void onCollision(CollisionComponent2D other)
+    {
+        if (other.tag == Attacker.COLLISION_TAG)
+            other.getEntity().destroy();
     }
 
     private static class Behaviour extends Component
