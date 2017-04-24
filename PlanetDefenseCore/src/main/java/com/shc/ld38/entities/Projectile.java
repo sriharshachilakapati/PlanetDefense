@@ -13,6 +13,7 @@ import com.shc.silenceengine.scene.components.PolygonRenderComponent;
 import com.shc.silenceengine.scene.components.SpriteComponent;
 import com.shc.silenceengine.utils.GameTimer;
 import com.shc.silenceengine.utils.MathUtils;
+import com.shc.silenceengine.utils.TaskManager;
 import com.shc.silenceengine.utils.TimeUtils;
 
 /**
@@ -22,7 +23,7 @@ public class Projectile extends Entity
 {
     public static final CollisionTag COLLISION_TAG = new CollisionTag();
 
-    public Projectile()
+    public Projectile(float angle)
     {
         SpriteComponent spriteComponent = new SpriteComponent(new Sprite(Resources.Textures.PROJECTILE));
         spriteComponent.layer = -2;
@@ -36,23 +37,27 @@ public class Projectile extends Entity
             addComponent(new BoundsRenderComponent2D(Color.RED));
         }
 
-        addComponent(new Behaviour());
+        addComponent(new Behaviour(angle));
     }
 
     private static class Behaviour extends Component
     {
         private float tx, ty;
 
-        @Override
-        protected void onCreate()
+        private Behaviour(float angle)
         {
-            final float angle = MathUtils.randomRange(0, 360);
+            angle += 180;
 
             tx = 4 * MathUtils.cos(angle);
             ty = 4 * MathUtils.sin(angle);
 
-            transformComponent.setRotation(angle);
+            float finalAngle = angle;
+            TaskManager.runOnUpdate(() -> transformComponent.setRotation(finalAngle));
+        }
 
+        @Override
+        protected void onCreate()
+        {
             GameTimer deathTimer = new GameTimer(10, TimeUtils.Unit.SECONDS);
             deathTimer.setCallback(entity::destroy);
             deathTimer.start();

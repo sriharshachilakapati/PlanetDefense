@@ -2,6 +2,7 @@ package com.shc.ld38.states;
 
 import com.shc.ld38.Util;
 import com.shc.ld38.entities.Asteroid;
+import com.shc.ld38.entities.Plane;
 import com.shc.ld38.entities.Planet;
 import com.shc.silenceengine.core.GameState;
 import com.shc.silenceengine.core.SilenceEngine;
@@ -42,6 +43,8 @@ public class PlayState extends GameState
         scene.addEntity(new Asteroid(930, 49));
         scene.addEntity(new Asteroid(1154, 209));
 
+        scene.addEntity(new Plane());
+
         scene.registerRenderSystem(new SceneRenderSystem());
 
         camera = new OrthoCam();
@@ -56,7 +59,7 @@ public class PlayState extends GameState
         scene.update(delta);
         Util.update();
 
-        if (Mouse.isButtonTapped(Mouse.BUTTON_LEFT))
+        if (Mouse.isButtonTapped(Mouse.BUTTON_RIGHT))
             SilenceEngine.log.getRootLogger().info(Util.getMouseInView());
 
         if (Touch.isFingerTapped(Touch.FINGER_0))

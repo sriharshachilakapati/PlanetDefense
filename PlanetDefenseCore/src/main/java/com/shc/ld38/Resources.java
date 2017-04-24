@@ -22,6 +22,7 @@ public class Resources
         long texAsteroidID = loader.define(Image.class, FilePath.getResourceFile("textures/asteroid.png"));
         long texTurretsID = loader.define(Texture.class, FilePath.getResourceFile("textures/sheet_turrets.png"));
         long texProjectileID = loader.define(Image.class, FilePath.getResourceFile("textures/projectile.png"));
+        long texPlaneID = loader.define(Image.class, FilePath.getResourceFile("textures/plane.png"));
 
         PlanetDefense.INSTANCE.setGameState(new ResourceLoadingState(loader, () ->
         {
@@ -53,6 +54,13 @@ public class Resources
 
             projectileImage.dispose();
 
+            Image planeImage = loader.get(texPlaneID);
+
+            Polygons.PLANE = Polygon.createConvexHull(planeImage);
+            Textures.PLANE = Texture.fromImage(planeImage);
+
+            planeImage.dispose();
+
             PlanetDefense.INSTANCE.setGameState(new PlayState());
         }));
     }
@@ -62,6 +70,7 @@ public class Resources
         public static Polygon PLANET;
         public static Polygon ASTEROID;
         public static Polygon PROJECTILE;
+        public static Polygon PLANE;
     }
 
     public static class Textures
@@ -72,5 +81,6 @@ public class Resources
         public static Texture TURRET_GREEN;
         public static Texture TURRET_RED;
         public static Texture PROJECTILE;
+        public static Texture PLANE;
     }
 }
