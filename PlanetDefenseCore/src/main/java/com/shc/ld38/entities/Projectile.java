@@ -46,8 +46,6 @@ public class Projectile extends Entity
 
         private Behaviour(float angle)
         {
-            angle += 180;
-
             tx = 4 * MathUtils.cos(angle);
             ty = 4 * MathUtils.sin(angle);
 

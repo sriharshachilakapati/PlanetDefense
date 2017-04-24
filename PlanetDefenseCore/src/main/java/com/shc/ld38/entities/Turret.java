@@ -2,7 +2,6 @@ package com.shc.ld38.entities;
 
 import com.shc.ld38.Resources;
 import com.shc.ld38.states.PlayState;
-import com.shc.silenceengine.core.SilenceEngine;
 import com.shc.silenceengine.graphics.Sprite;
 import com.shc.silenceengine.math.Vector2;
 import com.shc.silenceengine.math.Vector3;
@@ -51,10 +50,7 @@ public class Turret extends Entity
                         if (p.distanceSquared(temp) < nearestPathPoint.distanceSquared(temp))
                             nearestPathPoint = p;
 
-                    SilenceEngine.log.getRootLogger().info(nearestPathPoint);
-                    SilenceEngine.log.getRootLogger().info(position);
-
-                    firingAngle = temp.angle(nearestPathPoint);
+                    firingAngle = temp.angle(nearestPathPoint) + 180;
                     Vector2.REUSABLE_STACK.push(temp);
 
                     calculatedFiringAngle = true;
