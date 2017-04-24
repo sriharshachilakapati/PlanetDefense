@@ -5,6 +5,7 @@ import com.shc.ld38.Util;
 import com.shc.ld38.entities.Asteroid;
 import com.shc.ld38.entities.Attacker;
 import com.shc.ld38.entities.Planet;
+import com.shc.ld38.entities.PlayButton;
 import com.shc.ld38.entities.Projectile;
 import com.shc.silenceengine.collision.broadphase.Grid;
 import com.shc.silenceengine.collision.colliders.CollisionSystem2D;
@@ -29,12 +30,15 @@ import com.shc.silenceengine.utils.TimeUtils;
  */
 public class PlayState extends GameState
 {
-    private static final float WIDTH  = 1280;
-    private static final float HEIGHT = 720;
+    public static final float WIDTH  = 1280;
+    public static final float HEIGHT = 720;
 
     private static OrthoCam camera;
     private static OrthoCam hudCam;
+
     public static  Scene    scene;
+
+    private Scene hud;
 
     public static float money;
 
@@ -72,6 +76,12 @@ public class PlayState extends GameState
 
         scene.registerRenderSystem(new SceneRenderSystem());
 
+        hud = new Scene();
+        hud.addEntity(new PlayButton());
+        hud.registerRenderSystem(new SceneRenderSystem());
+
+        PlayButton.enabled = true;
+
         camera = new OrthoCam();
         hudCam = new OrthoCam();
         resized();
@@ -82,8 +92,13 @@ public class PlayState extends GameState
     @Override
     public void update(float delta)
     {
-        scene.update(delta);
+        hudCam.apply();
         Util.update();
+        hud.update(delta);
+
+        camera.apply();
+        Util.update();
+        scene.update(delta);
 
         money += 10 * delta;
 
@@ -116,6 +131,8 @@ public class PlayState extends GameState
         scene.render(delta);
 
         hudCam.apply();
+        hud.render(delta);
+
         BitmapFontRenderer fontRenderer = IGraphicsDevice.Renderers.bitmapFont;
         IGraphicsDevice.Programs.font.use();
 

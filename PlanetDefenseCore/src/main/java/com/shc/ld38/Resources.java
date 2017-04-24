@@ -3,6 +3,7 @@ package com.shc.ld38;
 import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.core.ResourceLoader;
 import com.shc.silenceengine.graphics.Image;
+import com.shc.silenceengine.graphics.Sprite;
 import com.shc.silenceengine.graphics.SpriteSheet;
 import com.shc.silenceengine.graphics.fonts.BitmapFont;
 import com.shc.silenceengine.graphics.opengl.Texture;
@@ -26,6 +27,7 @@ public class Resources
         long texPlaneID = loader.define(Image.class, FilePath.getResourceFile("textures/plane.png"));
         long texUFOID = loader.define(Image.class, FilePath.getResourceFile("textures/ufo.png"));
         long texAlienID = loader.define(Image.class, FilePath.getResourceFile("textures/alien.png"));
+        long texPlayBtnID = loader.define(Image.class, FilePath.getResourceFile("textures/playButton.png"));
 
         long fontDefID = loader.define(BitmapFont.class, FilePath.getResourceFile("engine_resources/fonts/roboto32px.fnt"));
 
@@ -80,6 +82,19 @@ public class Resources
 
             alienImage.dispose();
 
+            Image playImage = loader.get(texPlayBtnID);
+
+            Polygons.PLAY = Polygon.createConvexHull(playImage, 0, 0, 50, 34);
+            Texture playTexture = Texture.fromImage(playImage);
+
+            SpriteSheet playButtonSheet = new SpriteSheet(playTexture, 50, 34);
+
+            Sprites.PLAY_ENABLED = new Sprite(playButtonSheet.getCell(0, 0));
+            Sprites.PLAY_HOVER = new Sprite(playButtonSheet.getCell(0, 1));
+            Sprites.PLAY_DISABLED = new Sprite(playButtonSheet.getCell(0, 2));
+
+            playImage.dispose();
+
             Fonts.DEFAULT = loader.get(fontDefID);
 
             PlanetDefense.INSTANCE.setGameState(new PlayState());
@@ -88,6 +103,7 @@ public class Resources
 
     public static class Polygons
     {
+        public static Polygon PLAY;
         public static Polygon ALIEN;
         public static Polygon UFO;
         public static Polygon PLANET;
@@ -107,6 +123,13 @@ public class Resources
         public static Texture TURRET_RED;
         public static Texture PROJECTILE;
         public static Texture PLANE;
+    }
+
+    public static class Sprites
+    {
+        public static Sprite  PLAY_ENABLED;
+        public static Sprite PLAY_HOVER;
+        public static Sprite PLAY_DISABLED;
     }
 
     public static class Fonts
