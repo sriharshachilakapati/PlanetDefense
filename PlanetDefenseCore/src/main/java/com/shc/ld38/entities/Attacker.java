@@ -56,15 +56,15 @@ public class Attacker extends Entity
             switch (type)
             {
                 case PLANE:
-                    PlayState.money += 500;
+                    PlayState.money += 250;
                     break;
 
                 case UFO:
-                    PlayState.money += 1000;
+                    PlayState.money += 500;
                     break;
 
                 case ALIEN:
-                    PlayState.money += 1500;
+                    PlayState.money += 750;
                     break;
             }
         }
