@@ -42,7 +42,7 @@ public class PlayState extends GameState
 
         float y = -207;
 
-        for (int j = 0; j < waveNo % 3; j++)
+        for (int j = 0; j < Math.min(waveNo, 3); j++)
         {
             Attacker.Type type = j == 0 ? Attacker.Type.PLANE : j == 1 ? Attacker.Type.UFO : Attacker.Type.ALIEN;
 
