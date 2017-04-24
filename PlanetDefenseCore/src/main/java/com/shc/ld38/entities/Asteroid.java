@@ -15,6 +15,7 @@ import com.shc.silenceengine.scene.components.BoundsRenderComponent2D;
 import com.shc.silenceengine.scene.components.CollisionComponent2D;
 import com.shc.silenceengine.scene.components.PolygonRenderComponent;
 import com.shc.silenceengine.scene.components.SpriteComponent;
+import com.shc.silenceengine.utils.MathUtils;
 import com.shc.silenceengine.utils.TaskManager;
 
 /**
@@ -49,12 +50,13 @@ public class Asteroid extends Entity
         protected void onCreate()
         {
             collisionComponent = entity.getComponent(CollisionComponent2D.class);
+            transformComponent.rotate(MathUtils.randomRange(0, 360));
         }
 
         @Override
         protected void onUpdate(float elapsedTime)
         {
-            transformComponent.rotate(35 * elapsedTime);
+            transformComponent.rotate(5 * elapsedTime);
 
             if (Touch.isFingerTapped(Touch.FINGER_0) && !alreadyOccupied)
             {

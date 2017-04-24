@@ -1,13 +1,11 @@
 package com.shc.ld38.entities;
 
 import com.shc.ld38.Resources;
-import com.shc.ld38.states.PlayState;
 import com.shc.silenceengine.collision.CollisionTag;
 import com.shc.silenceengine.core.Game;
 import com.shc.silenceengine.graphics.Color;
 import com.shc.silenceengine.graphics.Sprite;
 import com.shc.silenceengine.input.Keyboard;
-import com.shc.silenceengine.math.Vector3;
 import com.shc.silenceengine.scene.Component;
 import com.shc.silenceengine.scene.Entity;
 import com.shc.silenceengine.scene.components.BoundsRenderComponent2D;
@@ -35,7 +33,7 @@ public class Planet extends Entity
 
         addComponent(new Behaviour());
 
-        transformComponent.setPosition(640, 360);
+        transformComponent.setPosition(400, 720);
     }
 
     private static class Behaviour extends Component
@@ -49,8 +47,7 @@ public class Planet extends Entity
             if (Keyboard.isKeyDown(Keyboard.KEY_D))
                 transformComponent.rotate(45 * elapsedTime);
 
-            Vector3 pos = transformComponent.getPosition();
-            PlayState.camera.center(pos.x, pos.y);
+            transformComponent.rotate(5 * elapsedTime);
         }
     }
 }
