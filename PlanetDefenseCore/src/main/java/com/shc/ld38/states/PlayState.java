@@ -17,8 +17,11 @@ import com.shc.silenceengine.scene.Scene;
  */
 public class PlayState extends GameState
 {
-    public static OrthoCam camera;
-    public static Scene    scene;
+    private static final float WIDTH  = 1280;
+    private static final float HEIGHT = 720;
+
+    private static OrthoCam camera;
+    public static  Scene    scene;
 
     @Override
     public void onEnter()
@@ -37,10 +40,10 @@ public class PlayState extends GameState
 
         scene.registerRenderSystem(new SceneRenderSystem());
 
-        camera = new OrthoCam(SilenceEngine.display.getWidth(), SilenceEngine.display.getHeight());
+        camera = new OrthoCam();
         resized();
 
-        GLContext.clearColor(new Color(10/255f, 42/255f, 49/255f));
+        GLContext.clearColor(new Color(10 / 255f, 42 / 255f, 49 / 255f));
     }
 
     @Override
@@ -66,7 +69,26 @@ public class PlayState extends GameState
     @Override
     public void resized()
     {
-        camera.initProjection(SilenceEngine.display.getWidth(), SilenceEngine.display.getHeight());
-        GLContext.viewport(0, 0, SilenceEngine.display.getWidth(), SilenceEngine.display.getHeight());
+        final int displayWidth = SilenceEngine.display.getWidth();
+        final int displayHeight = SilenceEngine.display.getHeight();
+
+        final float aspect = SilenceEngine.display.getAspectRatio();
+
+        float projectionWidth;
+        float projectionHeight;
+
+        if (displayWidth >= displayHeight)
+        {
+            projectionWidth = WIDTH;
+            projectionHeight = WIDTH / aspect;
+        }
+        else
+        {
+            projectionWidth = HEIGHT * aspect;
+            projectionHeight = HEIGHT;
+        }
+
+        camera.initProjection(projectionWidth, projectionHeight);
+        GLContext.viewport(0, 0, displayWidth, displayHeight);
     }
 }
