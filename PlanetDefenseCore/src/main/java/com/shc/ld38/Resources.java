@@ -1,6 +1,7 @@
 package com.shc.ld38;
 
 import com.shc.ld38.states.IntroState;
+import com.shc.silenceengine.audio.Sound;
 import com.shc.silenceengine.core.ResourceLoader;
 import com.shc.silenceengine.graphics.Image;
 import com.shc.silenceengine.graphics.Sprite;
@@ -29,6 +30,8 @@ public class Resources
         long texAlienID = loader.define(Image.class, FilePath.getResourceFile("textures/alien.png"));
         long texPlayBtnID = loader.define(Image.class, FilePath.getResourceFile("textures/playButton.png"));
         long texLogoID = loader.define(Texture.class, FilePath.getResourceFile("textures/logo.png"));
+
+        long sndMusicID = loader.define(Sound.class, FilePath.getResourceFile("sounds/PlanetDefense.ogg"));
 
         long fontDefID = loader.define(BitmapFont.class, FilePath.getResourceFile("engine_resources/fonts/roboto32px.fnt"));
 
@@ -97,8 +100,10 @@ public class Resources
             playImage.dispose();
 
             Textures.LOGO = loader.get(texLogoID);
-
             Fonts.DEFAULT = loader.get(fontDefID);
+
+            Sound music = loader.get(sndMusicID);
+            music.play(true);
 
             PlanetDefense.INSTANCE.setGameState(new IntroState());
         }));
