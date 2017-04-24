@@ -10,6 +10,8 @@ import com.shc.silenceengine.graphics.SceneRenderSystem;
 import com.shc.silenceengine.graphics.cameras.OrthoCam;
 import com.shc.silenceengine.graphics.opengl.GLContext;
 import com.shc.silenceengine.input.Mouse;
+import com.shc.silenceengine.input.Touch;
+import com.shc.silenceengine.math.Vector2;
 import com.shc.silenceengine.scene.Scene;
 
 /**
@@ -22,6 +24,8 @@ public class PlayState extends GameState
 
     private static OrthoCam camera;
     public static  Scene    scene;
+
+    private Vector2 previousMouse = new Vector2();
 
     @Override
     public void onEnter()
@@ -55,6 +59,21 @@ public class PlayState extends GameState
         if (Mouse.isButtonTapped(Mouse.BUTTON_LEFT))
             SilenceEngine.log.getRootLogger().info(Util.getMouseInView());
 
+        if (Touch.isFingerTapped(Touch.FINGER_0))
+            previousMouse.set(Touch.getFingerPosition(Touch.FINGER_0));
+
+        if (Touch.isFingerDown(Touch.FINGER_0))
+        {
+            Vector2 pos = Touch.getFingerPosition(Touch.FINGER_0);
+
+            final float dx = pos.x - previousMouse.x;
+            final float dy = pos.y - previousMouse.y;
+
+            previousMouse.set(pos);
+
+            camera.translate(dx, dy);
+        }
+
         SilenceEngine.display.setTitle("PlanetDefense | FPS: " + SilenceEngine.gameLoop.getFPS() + " | UPS: " +
                                        SilenceEngine.gameLoop.getUPS());
     }
@@ -72,12 +91,12 @@ public class PlayState extends GameState
         final int displayWidth = SilenceEngine.display.getWidth();
         final int displayHeight = SilenceEngine.display.getHeight();
 
-        final float aspect = SilenceEngine.display.getAspectRatio();
+        final float aspect = (float) displayWidth / (float) displayHeight;
 
         float projectionWidth;
         float projectionHeight;
 
-        if (displayWidth >= displayHeight)
+        if (displayWidth < displayHeight)
         {
             projectionWidth = WIDTH;
             projectionHeight = WIDTH / aspect;
