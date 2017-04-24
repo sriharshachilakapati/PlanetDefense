@@ -7,6 +7,7 @@ import com.shc.silenceengine.graphics.Color;
 import com.shc.silenceengine.graphics.Sprite;
 import com.shc.silenceengine.graphics.opengl.Texture;
 import com.shc.silenceengine.math.geom2d.Polygon;
+import com.shc.silenceengine.scene.Component;
 import com.shc.silenceengine.scene.Entity;
 import com.shc.silenceengine.scene.components.BoundsRenderComponent2D;
 import com.shc.silenceengine.scene.components.CollisionComponent2D;
@@ -32,13 +33,25 @@ public class Attacker extends Entity
         }
 
         addComponent(new PathComponent(type.rotatesInPath));
+
+        if (type == Type.ALIEN)
+            addComponent(new AlienBehaviour());
+    }
+
+    private static class AlienBehaviour extends Component
+    {
+        @Override
+        protected void onUpdate(float elapsedTime)
+        {
+            transformComponent.rotate(180 * elapsedTime);
+        }
     }
 
     public enum Type
     {
         PLANE(true, Resources.Textures.PLANE, Resources.Polygons.PLANE),
         UFO(false, Resources.Textures.UFO, Resources.Polygons.UFO),
-        ALIEN(false, null, null);
+        ALIEN(false, Resources.Textures.ALIEN, Resources.Polygons.ALIEN);
 
         Type(boolean rotatesInPath, Texture texture, Polygon polygon)
         {

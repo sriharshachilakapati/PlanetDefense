@@ -24,6 +24,7 @@ public class Resources
         long texProjectileID = loader.define(Image.class, FilePath.getResourceFile("textures/projectile.png"));
         long texPlaneID = loader.define(Image.class, FilePath.getResourceFile("textures/plane.png"));
         long texUFOID = loader.define(Image.class, FilePath.getResourceFile("textures/ufo.png"));
+        long texAlienID = loader.define(Image.class, FilePath.getResourceFile("textures/alien.png"));
 
         PlanetDefense.INSTANCE.setGameState(new ResourceLoadingState(loader, () ->
         {
@@ -69,12 +70,20 @@ public class Resources
 
             ufoImage.dispose();
 
+            Image alienImage = loader.get(texAlienID);
+
+            Polygons.ALIEN = Polygon.createConvexHull(alienImage);
+            Textures.ALIEN = Texture.fromImage(alienImage);
+
+            alienImage.dispose();
+
             PlanetDefense.INSTANCE.setGameState(new PlayState());
         }));
     }
 
     public static class Polygons
     {
+        public static Polygon ALIEN;
         public static Polygon UFO;
         public static Polygon PLANET;
         public static Polygon ASTEROID;
@@ -84,6 +93,7 @@ public class Resources
 
     public static class Textures
     {
+        public static Texture ALIEN;
         public static Texture UFO;
         public static Texture PLANET;
         public static Texture ASTEROID;

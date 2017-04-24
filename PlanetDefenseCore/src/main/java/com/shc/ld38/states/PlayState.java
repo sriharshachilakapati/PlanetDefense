@@ -52,6 +52,10 @@ public class PlayState extends GameState
         ufoSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.UFO))));
         ufoSpawn.start();
 
+        GameTimer alienSpawn = new GameTimer(6, TimeUtils.Unit.SECONDS);
+        alienSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.ALIEN))));
+        alienSpawn.start();
+
         scene.registerRenderSystem(new SceneRenderSystem());
 
         camera = new OrthoCam();
