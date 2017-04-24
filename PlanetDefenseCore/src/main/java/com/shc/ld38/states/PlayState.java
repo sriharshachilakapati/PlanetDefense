@@ -21,9 +21,6 @@ import com.shc.silenceengine.input.Mouse;
 import com.shc.silenceengine.input.Touch;
 import com.shc.silenceengine.math.Vector2;
 import com.shc.silenceengine.scene.Scene;
-import com.shc.silenceengine.utils.GameTimer;
-import com.shc.silenceengine.utils.TaskManager;
-import com.shc.silenceengine.utils.TimeUtils;
 
 /**
  * @author Sri Harsha Chilakapati
@@ -39,13 +36,25 @@ public class PlayState extends GameState
     public static Scene scene;
     public static float money;
 
+    private static int waveNo = 0;
+
     private Scene hud;
 
     private Vector2 previousMouse = new Vector2();
 
     public static void generateNewWave()
     {
-        // TODO:
+        waveNo++;
+
+        float y = -207;
+
+        for (int j = 0; j < waveNo % 3; j++)
+        {
+            Attacker.Type type = j == 0 ? Attacker.Type.PLANE : j == 1 ? Attacker.Type.UFO : Attacker.Type.ALIEN;
+
+            for (int i = 0; i < waveNo; i++)
+                scene.addEntity(new Attacker(type, 1103, y -= 100));
+        }
     }
 
     @Override
@@ -63,20 +72,11 @@ public class PlayState extends GameState
         scene.addEntity(new Asteroid(792, 318));
         scene.addEntity(new Asteroid(930, 49));
         scene.addEntity(new Asteroid(1154, 209));
-        scene.addEntity(new Attacker(Attacker.Type.PLANE));
 
         CollisionSystem2D collider = new CollisionSystem2D(new Grid((int) WIDTH, (int) HEIGHT, 128, 128));
         collider.register(Attacker.COLLISION_TAG, Projectile.COLLISION_TAG);
 
         scene.registerUpdateSystem(collider);
-
-        GameTimer ufoSpawn = new GameTimer(3, TimeUtils.Unit.SECONDS);
-        ufoSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.UFO))));
-        ufoSpawn.start();
-
-        GameTimer alienSpawn = new GameTimer(6, TimeUtils.Unit.SECONDS);
-        alienSpawn.setCallback(() -> TaskManager.runOnRender(() -> scene.addEntity(new Attacker(Attacker.Type.ALIEN))));
-        alienSpawn.start();
 
         scene.registerRenderSystem(new SceneRenderSystem());
 
@@ -89,6 +89,8 @@ public class PlayState extends GameState
         camera = new OrthoCam();
         hudCam = new OrthoCam();
         resized();
+
+        generateNewWave();
 
         GLContext.clearColor(new Color(10 / 255f, 42 / 255f, 49 / 255f));
     }

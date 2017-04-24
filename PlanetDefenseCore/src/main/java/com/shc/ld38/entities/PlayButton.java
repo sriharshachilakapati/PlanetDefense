@@ -14,6 +14,7 @@ import com.shc.silenceengine.scene.components.BoundsRenderComponent2D;
 import com.shc.silenceengine.scene.components.CollisionComponent2D;
 import com.shc.silenceengine.scene.components.PolygonRenderComponent;
 import com.shc.silenceengine.scene.components.SpriteComponent;
+import com.shc.silenceengine.utils.TaskManager;
 
 /**
  * @author Sri Harsha Chilakapati
@@ -67,7 +68,7 @@ public class PlayButton extends Entity
 
                 if (Touch.isFingerTapped(Touch.FINGER_0))
                 {
-                    PlayState.generateNewWave();
+                    TaskManager.runOnRender(PlayState::generateNewWave);
                     enabled = false;
                 }
             }

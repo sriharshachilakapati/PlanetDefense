@@ -24,7 +24,7 @@ public class Attacker extends Entity
 
     private Type type;
 
-    public Attacker(Type type)
+    public Attacker(Type type, float x, float y)
     {
         addComponent(new SpriteComponent(new Sprite(type.texture)));
         addComponent(new CollisionComponent2D(COLLISION_TAG, type.polygon.copy(), this::attackerCollision));
@@ -41,6 +41,7 @@ public class Attacker extends Entity
             addComponent(new AlienBehaviour());
 
         this.type = type;
+        transformComponent.setPosition(x, y);
     }
 
     private void attackerCollision(CollisionComponent2D other)
