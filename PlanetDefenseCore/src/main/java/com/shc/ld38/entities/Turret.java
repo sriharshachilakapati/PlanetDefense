@@ -14,7 +14,6 @@ import com.shc.silenceengine.scene.components.CollisionComponent2D;
 import com.shc.silenceengine.scene.components.SpriteComponent;
 import com.shc.silenceengine.utils.GameTimer;
 import com.shc.silenceengine.utils.MathUtils;
-import com.shc.silenceengine.utils.TaskManager;
 import com.shc.silenceengine.utils.TimeUtils;
 
 /**
@@ -57,34 +56,31 @@ public class Turret extends Entity
                 if (entity.isDestroyed())
                     return;
 
-                TaskManager.runOnRender(() ->
+                if (!calculatedFiringAngle)
                 {
-                    if (!calculatedFiringAngle)
-                    {
-                        Vector2 nearestPathPoint = PathComponent.PATH.get(0);
+                    Vector2 nearestPathPoint = PathComponent.PATH.get(0);
 
-                        Vector3 position = transformComponent.getParent().getPosition();
-                        Vector2 temp = Vector2.REUSABLE_STACK.pop();
-                        temp.x = position.x;
-                        temp.y = position.y;
+                    Vector3 position = transformComponent.getParent().getPosition();
+                    Vector2 temp = Vector2.REUSABLE_STACK.pop();
+                    temp.x = position.x;
+                    temp.y = position.y;
 
-                        for (Vector2 p : PathComponent.PATH)
-                            if (p.distanceSquared(temp) < nearestPathPoint.distanceSquared(temp))
-                                nearestPathPoint = p;
+                    for (Vector2 p : PathComponent.PATH)
+                        if (p.distanceSquared(temp) < nearestPathPoint.distanceSquared(temp))
+                            nearestPathPoint = p;
 
-                        firingAngle = temp.angle(nearestPathPoint) + 180;
-                        Vector2.REUSABLE_STACK.push(temp);
+                    firingAngle = temp.angle(nearestPathPoint) + 180;
+                    Vector2.REUSABLE_STACK.push(temp);
 
-                        calculatedFiringAngle = true;
+                    calculatedFiringAngle = true;
 
-                        owner = (Asteroid) transformComponent.getParent().getEntity();
-                    }
+                    owner = (Asteroid) transformComponent.getParent().getEntity();
+                }
 
-                    Projectile projectile = new Projectile(firingAngle, owner);
-                    projectile.transformComponent.setPosition(transformComponent.getParent().getPosition());
+                Projectile projectile = new Projectile(firingAngle, owner);
+                projectile.transformComponent.setPosition(transformComponent.getParent().getPosition());
 
-                    PlayState.scene.addEntity(projectile);
-                });
+                PlayState.scene.addEntity(projectile);
 
                 if (!entity.isDestroyed())
                 {

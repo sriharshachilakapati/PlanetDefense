@@ -17,7 +17,6 @@ import com.shc.silenceengine.scene.components.CollisionComponent2D;
 import com.shc.silenceengine.scene.components.PolygonRenderComponent;
 import com.shc.silenceengine.scene.components.SpriteComponent;
 import com.shc.silenceengine.utils.MathUtils;
-import com.shc.silenceengine.utils.TaskManager;
 
 /**
  * @author Sri Harsha Chilakapati
@@ -76,7 +75,7 @@ public class Asteroid extends Entity
 
                     Turret turret = new Turret();
                     turret.transformComponent.setParent(transformComponent);
-                    TaskManager.runOnRender(() -> PlayState.scene.addEntity(turret));
+                    PlayState.scene.addEntity(turret);
 
                     alreadyOccupied = true;
                     PlayState.money -= 1000;
